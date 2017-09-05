@@ -38,10 +38,7 @@
           ],
           "url_pattern": "/user/{name}",
           "encoding": "json",
-          "group": "user",
-          "extra_config": {
-            "Forward": false
-          }
+          "group": "user"
         }
       ]
     },
@@ -58,26 +55,22 @@
           ],
           "url_pattern": "/user/{name}",
           "encoding": "json",
-          "group": "user",
-          "extra_config": {
-            "Forward": false
-          }
+          "group": "user"
         }
       ]
     },
     {
       "endpoint": "/stream",
       "method": "GET",
-      "forward": true,
+      "extra_config": {
+        "Forward": true
+      },
       "backend": [
         {
           "url_pattern": "/r/GODO/LV/p4/WebSite/2017/08/23/Recortada/img_avived_20170823-113329_imagenes_lv_terceros_istock-683310304-kokF-U43755712069FCI-992x558@LaVanguardia-Web.jpg",
           "host": [
             "http://www.lavanguardia.com"
-          ],
-          "extra_config": {
-            "Forward": true
-          }
+          ]
         }
       ]
     }
