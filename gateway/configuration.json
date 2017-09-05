@@ -12,44 +12,33 @@
     }
   },
 
-  "debug": false,
+  "debug": true,
   "version": 1,
   "name": "My lovely gateway",
-  "port": 8080,
+  "port": 8081,
   "timeout": "10s",
   "max_rate": 1000,
   "client_max_rate": 1000,
   "concurrent_calls": "50",
   "cache_ttl": 3600,
   "host": [
-    "http://127.0.0.1:8080",
-    "http://127.0.0.1:8081",
-    "http://www.lavanguardia.com",
-    "http://34.248.41.202:8080"
+    "http://127.0.0.1:8080"
   ],
   "endpoints": [
     {
-      "endpoint": "/data2/{tenant1Id}/{tenant2Id}",
+      "endpoint": "/user/{name}",
       "method": "GET",
       "client_max_rate": 10,
-      "concurrent_calls": "5",
+      "concurrent_calls": "1",
       "endpoint_max_rate": "12",
       "backend": [
         {
           "host": [
-            "http://127.0.0.1:8081"
+            "http://127.0.0.1:8080"
           ],
-          "url_pattern": "/api/v1/tenants/{tenant1Id}",
+          "url_pattern": "/user/{name}",
           "encoding": "json",
-          "group": "tenant1"
-        },
-        {
-          "host": [
-            "http://127.0.0.1:8081"
-          ],
-          "url_pattern": "/api/v1/tenants/{tenant2Id}",
-          "encoding": "json",
-          "group": "tenant2"
+          "group": "user"
         }
       ]
     }
