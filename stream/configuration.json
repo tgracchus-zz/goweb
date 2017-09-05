@@ -1,0 +1,88 @@
+{
+  "rate_limit": {
+    "default": {
+      "max_requests": 4000,
+      "burst_size": 50
+    },
+    "custom": {
+      "kufar": {
+        "max_requests": 400,
+        "burst_size": 10
+      }
+    }
+  },
+  "debug": true,
+  "version": 1,
+  "name": "My lovely gateway",
+  "port": 8081,
+  "timeout": "10s",
+  "max_rate": 1000,
+  "client_max_rate": 1000,
+  "concurrent_calls": "50",
+  "cache_ttl": 3600,
+  "host": [
+    "http://127.0.0.1:8080",
+    "http://www.lavanguardia.com"
+  ],
+  "endpoints": [
+    {
+      "endpoint": "/user/{name}",
+      "method": "GET",
+      "client_max_rate": 10,
+      "concurrent_calls": "1",
+      "endpoint_max_rate": "12",
+      "backend": [
+        {
+          "host": [
+            "http://127.0.0.1:8080"
+          ],
+          "url_pattern": "/user/{name}",
+          "encoding": "json",
+          "group": "user",
+          "extra_config": {
+            "Forward": false
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/user/{name}/*action",
+      "method": "GET",
+      "client_max_rate": 10,
+      "concurrent_calls": "1",
+      "endpoint_max_rate": "12",
+      "backend": [
+        {
+          "host": [
+            "http://127.0.0.1:8080"
+          ],
+          "url_pattern": "/user/{name}",
+          "encoding": "json",
+          "group": "user",
+          "extra_config": {
+            "Forward": false
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/stream",
+      "method": "GET",
+      "forward": true,
+      "backend": [
+        {
+          "url_pattern": "/r/GODO/LV/p4/WebSite/2017/08/23/Recortada/img_avived_20170823-113329_imagenes_lv_terceros_istock-683310304-kokF-U43755712069FCI-992x558@LaVanguardia-Web.jpg",
+          "host": [
+            "http://www.lavanguardia.com"
+          ],
+          "extra_config": {
+            "Forward": true
+          }
+        }
+      ]
+    }
+  ],
+  "oauth": {
+    "disable": true
+  }
+}
