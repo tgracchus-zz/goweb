@@ -43,23 +43,6 @@
       ]
     },
     {
-      "endpoint": "/user/{name}/*action",
-      "method": "GET",
-      "client_max_rate": 10,
-      "concurrent_calls": "1",
-      "endpoint_max_rate": "12",
-      "backend": [
-        {
-          "host": [
-            "http://127.0.0.1:8080"
-          ],
-          "url_pattern": "/user/{name}",
-          "encoding": "json",
-          "group": "user"
-        }
-      ]
-    },
-    {
       "endpoint": "/stream",
       "method": "GET",
       "extra_config": {

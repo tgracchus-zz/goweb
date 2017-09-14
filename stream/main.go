@@ -4,13 +4,12 @@ import (
 	"flag"
 	"log"
 	"os"
-	"github.com/devopsfaith/krakend/config"
-	"github.com/devopsfaith/krakend/config/viper"
-	"github.com/devopsfaith/krakend/logging"
-	"github.com/devopsfaith/krakend/logging/gologging"
-	"github.com/devopsfaith/krakend/proxy"
-	krakendgin "github.com/devopsfaith/krakend/router/gin"
-	"github.com/gin-gonic/gin"
+	"github.schibsted.io/spt-infrastructure/krakend/config"
+	"github.schibsted.io/spt-infrastructure/krakend/config/viper"
+	"github.schibsted.io/spt-infrastructure/krakend/logging"
+	"github.schibsted.io/spt-infrastructure/krakend/logging/gologging"
+	"github.schibsted.io/spt-infrastructure/krakend/proxy"
+	gconfig "github.schibsted.io/spt-infrastructure/apigw-krakend/config"
 )
 
 func main() {
@@ -35,17 +34,11 @@ func main() {
 		log.Fatal("ERROR:", err.Error())
 	}
 
-	routerFactory := krakendgin.NewFactory(
-		krakendgin.Config{
-			Engine:         gin.Default(),
-			Middlewares:    []gin.HandlerFunc{},
-			HandlerFactory: krakendgin.StreamEndpointHandler,
-			ProxyFactory:   proxy.StreamDefaultFactory(logger),
-			Logger:         logger,
-		},
-	)
+	routerFactory, apigwConfig := gconfig.NewRouterFactory(*port, *debug, logger, *configFile)
+	router := routerFactory.New()
+	router.Run(apigwConfig.ServiceConfig)
 
-	routerFactory.New().Run(serviceConfig)
+	routerFactory.New().Run(apigwConfig.ServiceConfig)
 }
 
 // customProxyFactory adds a logging middleware wrapping the internal factory
