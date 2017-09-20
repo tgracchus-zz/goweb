@@ -10,6 +10,7 @@ import (
 	"github.schibsted.io/spt-infrastructure/krakend/logging/gologging"
 	"github.schibsted.io/spt-infrastructure/krakend/proxy"
 	gconfig "github.schibsted.io/spt-infrastructure/apigw-krakend/config"
+	grouter "github.schibsted.io/spt-infrastructure/apigw-krakend/proxy/router/gin"
 )
 
 func main() {
@@ -34,11 +35,9 @@ func main() {
 		log.Fatal("ERROR:", err.Error())
 	}
 
-	routerFactory, apigwConfig := gconfig.NewRouterFactory(*port, *debug, logger, *configFile)
-	router := routerFactory.New()
-	router.Run(apigwConfig.ServiceConfig)
-
-	routerFactory.New().Run(apigwConfig.ServiceConfig)
+	apiGWConfig := gconfig.NewApiGWConfig(*port, *debug, *configFile)
+	gate := grouter.NewGateway(logger)
+	gate.Run(apiGWConfig)
 }
 
 // customProxyFactory adds a logging middleware wrapping the internal factory
